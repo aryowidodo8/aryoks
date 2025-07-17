@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bunga Interaktif</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #111;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #555;
+      background: #222;
+      margin-top: 20px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #00b894;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #019875;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 Bunga Interaktif</h1>
+  <label>Jumlah Kelopak:</label>
+  <input type="number" id="kelopak" value="12" min="3" max="100" /><br/>
+  <label>Warna Bunga:</label>
+  <input type="color" id="warna" value="#ff69b4" /><br/>
+  <button onclick="gambarBunga()">Gambar Bunga</button>
+
+  <canvas id="kanvas" width="500" height="500"></canvas>
+
+  <script>
+    function gambarBunga() {
+      const canvas = document.getElementById('kanvas');
+      const ctx = canvas.getContext('2d');
+      const kelopak = parseInt(document.getElementById('kelopak').value);
+      const warna = document.getElementById('warna').value;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const radius = 100;
+      const angle = (2 * Math.PI) / kelopak;
+
+      ctx.fillStyle = warna;
+      ctx.strokeStyle = warna;
+
+      for (let i = 0; i < kelopak; i++) {
+        const theta = i * angle;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.bezierCurveTo(
+          cx + Math.cos(theta) * radius,
+          cy + Math.sin(theta) * radius,
+          cx + Math.cos(theta + angle / 2) * radius,
+          cy + Math.sin(theta + angle / 2) * radius,
+          cx,
+          cy
+        );
+        ctx.fill();
+      }
+
+      // Tambah lingkaran tengah
+      ctx.beginPath();
+      ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
+      ctx.fillStyle = "#fcd34d";
+      ctx.fill();
+    }
+  </script>
+</body>
+</html>
